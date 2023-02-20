@@ -21,45 +21,51 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val navigationView = findViewById<BottomNavigationView>(R.id.bottomNav)
-
-        navigationView.setOnItemSelectedListener {
-            when (it.itemId) {
-                R.id.home -> {
-                    Log.d("NAVIGATION", "home")
-                    GIFS_ARE_SHOWN = false
-                    Log.d("GIFS_ARE_SHOWN", "false")
-                    toHome()
-                    true
-                }
-                R.id.help -> {
-                    Log.d("NAVIGATION", "help")
-                    showHelp()
-                    true
-                }
-                R.id.settings -> {
-                    Log.d("NAVIGATION", "settings")
-                    showSettings()
-                    true
-                }
-                else -> {
-                    true
-                }
-            }
-        }
+//        val navigationView = findViewById<BottomNavigationView>(R.id.bottomNav)
+//
+//        navigationView.setOnItemSelectedListener {
+//            when (it.itemId) {
+//                R.id.home -> {
+//                    Log.d("NAVIGATION", "home")
+////                    Log.d("GIFS_ARE_SHOWN", "false")
+//                    if (GIFS_ARE_SHOWN) {
+//
+////                        val action = GifsFragmentDirections.actionGifsFragmentToHomeFragment()
+////                        findNavController(R.id.gifsFragment).navigate(action)
+//                    }
+////                    toHome()
+//                    true
+//                }
+//                R.id.help -> {
+//                    Log.d("NAVIGATION", "help")
+//                    showHelp()
+//                    true
+//                }
+//                R.id.settings -> {
+//                    Log.d("NAVIGATION", "settings")
+//                    showSettings()
+//                    true
+//                }
+//                else -> {
+//                    true
+//                }
+//            }
+//        }
     }
 
     private fun toHome() {
         if (GIFS_ARE_SHOWN) {
+
+//        if (GifsFragment().isVisible) {
             Log.d("GIFS_ARE_SHOWN", "GIFS_ARE_SHOWN")
-//            GifsFragment().toHome()
+            GifsFragment().toHome()
 //            val action = GifsFragmentDirections.actionGifsFragmentToHomeFragment()
-//            this.findNavController(R.id.bottomNav).navigate(action)
+//            this.supportFragmentManager.findNavController(R.id.bottomNav).navigate(action)
         }
 
     }
 
-    private fun showSettings() {
+    public fun showSettings() {
         val dialogView = LayoutInflater.from(this).inflate(R.layout.settings_window, null)
         val builder = AlertDialog.Builder(this)
             .setView(dialogView)
@@ -69,7 +75,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showHelp() {
+    public fun showHelp() {
         val dialogView = LayoutInflater.from(this).inflate(R.layout.help_window, null)
         val builder = AlertDialog.Builder(this)
             .setView(dialogView)
