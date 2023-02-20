@@ -23,9 +23,8 @@ class GiphyPagingSource (
         } else {
             range = start.until(start + params.loadSize)
         }
-
-
-        Log.d("GIF_COUNT", start.toString())
+//        Log.d("LOAD_SIZE", params.loadSize.toString())
+//        Log.d("GIF_COUNT", start.toString())
 
         return LoadResult.Page(
             data = backend.getDataPaging(

@@ -2,7 +2,6 @@ package com.example.mygiphyapplication.ui.ui_elements
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Button
 import androidx.fragment.app.Fragment
@@ -10,14 +9,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import com.example.mygiphyapplication.Injection
 import com.example.mygiphyapplication.R
-import com.example.mygiphyapplication.data.entities.ResponseItems
 import com.example.mygiphyapplication.databinding.FragmentGifsBinding
 import com.example.mygiphyapplication.ui.state_holders.GifsPagingViewModel
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -36,13 +33,9 @@ class GifsFragment : Fragment() {
         )
         val items = viewModel.items
         val adapter = GifsPagingAdapter()
-        GIFS_ARE_SHOWN = true
-        Log.d("GIFS_ARE_SHOWN", GIFS_ARE_SHOWN.toString())
 
         binding.bindAdapter(adapter = adapter)
 
-//        lifecycleScope.launch {
-//            repeatOnLifecycle(Lifecycle.State.STARTED) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 items.collectLatest {
@@ -51,29 +44,33 @@ class GifsFragment : Fragment() {
             }
         }
 
-        setHasOptionsMenu(true)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                adapter.loadStateFlow.collect {
+                    if (it.source.append is LoadState.Loading) {
+                        binding.statusTv.text = "Loading"
+                    } else {
+                        binding.statusTv.text = "Done"
+                    }
+
+                }
+            }
+        }
+
         val navigationView = binding.bottomNav
 
         navigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.home -> {
-                    Log.d("NAVIGATION", "home")
-//                    Log.d("GIFS_ARE_SHOWN", "false")
-                    if (GIFS_ARE_SHOWN) {
-
-                        val action = GifsFragmentDirections.actionGifsFragmentToHomeFragment()
-                        findNavController().navigate(action)
-                    }
-//                    toHome()
+                    val action = GifsFragmentDirections.actionGifsFragmentToHomeFragment()
+                    findNavController().navigate(action)
                     true
                 }
                 R.id.help -> {
-                    Log.d("NAVIGATION", "help")
                     showHelp()
                     true
                 }
                 R.id.settings -> {
-                    Log.d("NAVIGATION", "settings")
                     showSettings()
                     true
                 }
@@ -83,40 +80,6 @@ class GifsFragment : Fragment() {
             }
         }
         return binding.root
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.home -> {
-                val action = GifsFragmentDirections.actionGifsFragmentToHomeFragment()
-                findNavController().navigate(action)
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-
-
-    public fun toHome() {
-        val action = GifsFragmentDirections.actionGifsFragmentToHomeFragment()
-//        view?.post{
-//            Log.d("toHome()", "CALLED")
-//            findNavController().navigate(action)
-//        }
-        findNavControllerSafely()?.navigate(action)
-
-    }
-
-    fun Fragment.findNavControllerSafely(): NavController? {
-        return if (isAdded) {
-            findNavController()
-        } else {
-            null
-        }
     }
 
     private fun showSettings() {

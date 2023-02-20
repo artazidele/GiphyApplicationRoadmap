@@ -2,7 +2,6 @@ package com.example.mygiphyapplication.ui.ui_elements
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Button
 import android.widget.TextView
@@ -10,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.mygiphyapplication.R
 import com.example.mygiphyapplication.databinding.FragmentHomeBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeFragment : Fragment() {
 
@@ -23,7 +21,6 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        GIFS_ARE_SHOWN = false
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         binding.mainBtn.setOnClickListener {
@@ -32,7 +29,6 @@ class HomeFragment : Fragment() {
                 showError()
             } else {
                 QUERY = searchObject
-                Log.d("QUERY", QUERY)
                 val action = HomeFragmentDirections.actionHomeFragmentToGifsFragment()
                 findNavController().navigate(action)
             }
@@ -42,23 +38,13 @@ class HomeFragment : Fragment() {
         navigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.home -> {
-//                    Log.d("NAVIGATION", "home")
-////                    Log.d("GIFS_ARE_SHOWN", "false")
-//                    if (GIFS_ARE_SHOWN) {
-//
-//                        val action = GifsFragmentDirections.actionGifsFragmentToHomeFragment()
-//                        findNavController().navigate(action)
-//                    }
-////                    toHome()
                     true
                 }
                 R.id.help -> {
-                    Log.d("NAVIGATION", "help")
                     showHelp()
                     true
                 }
                 R.id.settings -> {
-                    Log.d("NAVIGATION", "settings")
                     showSettings()
                     true
                 }

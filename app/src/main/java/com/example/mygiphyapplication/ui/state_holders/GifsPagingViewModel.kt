@@ -1,5 +1,7 @@
 package com.example.mygiphyapplication.ui.state_holders
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
