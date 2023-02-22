@@ -12,3 +12,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
     }
 }
+/*
+* https://developer.android.com/codelabs/android-paging#11
+* UNTIL UNIT 12
+*
+* */

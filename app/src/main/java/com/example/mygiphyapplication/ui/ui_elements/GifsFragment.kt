@@ -1,9 +1,7 @@
 package com.example.mygiphyapplication.ui.ui_elements
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
-import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -28,6 +26,7 @@ class GifsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentGifsBinding.inflate(inflater, container, false)
+        FROM_GIFS = 1
         val viewModel by viewModels<GifsPagingViewModel>(
             factoryProducer = { Injection.provideViewModelFactory(owner = this) }
         )
@@ -67,41 +66,19 @@ class GifsFragment : Fragment() {
                     true
                 }
                 R.id.help -> {
-                    showHelp()
-                    true
-                }
-                R.id.settings -> {
-                    showSettings()
+                    val action = GifsFragmentDirections.actionGifsFragmentToHelpFragment()
+                    findNavController().navigate(action)
                     true
                 }
                 else -> {
+                    val action = GifsFragmentDirections.actionGifsFragmentToSettingsFragment()
+                    findNavController().navigate(action)
                     true
                 }
             }
         }
         return binding.root
     }
-
-    private fun showSettings() {
-        val dialogView = LayoutInflater.from(context).inflate(R.layout.settings_window, null)
-        val builder = AlertDialog.Builder(context)
-            .setView(dialogView)
-        val alertDialog = builder.show()
-        dialogView.findViewById<Button>(R.id.close_btn).setOnClickListener {
-            alertDialog.dismiss()
-        }
-    }
-
-    private fun showHelp() {
-        val dialogView = LayoutInflater.from(context).inflate(R.layout.help_window, null)
-        val builder = AlertDialog.Builder(context)
-            .setView(dialogView)
-        val alertDialog = builder.show()
-        dialogView.findViewById<Button>(R.id.close_btn).setOnClickListener {
-            alertDialog.dismiss()
-        }
-    }
-
 }
 
 private fun FragmentGifsBinding.bindAdapter(

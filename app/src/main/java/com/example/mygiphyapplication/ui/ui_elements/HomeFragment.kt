@@ -22,6 +22,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        FROM_GIFS = 0
 
         binding.mainBtn.setOnClickListener {
             val searchObject = binding.mainEt.text.toString()
@@ -37,15 +38,14 @@ class HomeFragment : Fragment() {
 
         navigationView.setOnItemSelectedListener {
             when (it.itemId) {
-                R.id.home -> {
-                    true
-                }
                 R.id.help -> {
-                    showHelp()
+                    val action = HomeFragmentDirections.actionHomeFragmentToHelpFragment()
+                    findNavController().navigate(action)
                     true
                 }
                 R.id.settings -> {
-                    showSettings()
+                    val action = HomeFragmentDirections.actionHomeFragmentToSettingsFragment()
+                    findNavController().navigate(action)
                     true
                 }
                 else -> {
@@ -61,26 +61,6 @@ class HomeFragment : Fragment() {
         val dialogView = LayoutInflater.from(context).inflate(R.layout.settings_window, null)
         val textView = dialogView.findViewById<TextView>(R.id.settings_tv)
         textView.text = "Please enter what do You want to search!"
-        val builder = AlertDialog.Builder(context)
-            .setView(dialogView)
-        val alertDialog = builder.show()
-        dialogView.findViewById<Button>(R.id.close_btn).setOnClickListener {
-            alertDialog.dismiss()
-        }
-    }
-
-    private fun showSettings() {
-        val dialogView = LayoutInflater.from(context).inflate(R.layout.settings_window, null)
-        val builder = AlertDialog.Builder(context)
-            .setView(dialogView)
-        val alertDialog = builder.show()
-        dialogView.findViewById<Button>(R.id.close_btn).setOnClickListener {
-            alertDialog.dismiss()
-        }
-    }
-
-    private fun showHelp() {
-        val dialogView = LayoutInflater.from(context).inflate(R.layout.help_window, null)
         val builder = AlertDialog.Builder(context)
             .setView(dialogView)
         val alertDialog = builder.show()

@@ -12,6 +12,12 @@
         <action
             android:id="@+id/action_homeFragment_to_gifsFragment"
             app:destination="@id/gifsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_helpFragment"
+            app:destination="@id/helpFragment" />
     </fragment>
     <fragment
         android:id="@+id/gifsFragment"
@@ -20,6 +26,36 @@
         tools:layout="@layout/fragment_gifs" >
         <action
             android:id="@+id/action_gifsFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_gifsFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_gifsFragment_to_helpFragment"
+            app:destination="@id/helpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/helpFragment"
+        android:name="com.example.mygiphyapplication.ui.ui_elements.HelpFragment"
+        android:label="fragment_help"
+        tools:layout="@layout/fragment_help" >
+        <action
+            android:id="@+id/action_helpFragment_to_gifsFragment"
+            app:destination="@id/gifsFragment" />
+        <action
+            android:id="@+id/action_helpFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.mygiphyapplication.ui.ui_elements.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_gifsFragment"
+            app:destination="@id/gifsFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
 </navigation>
